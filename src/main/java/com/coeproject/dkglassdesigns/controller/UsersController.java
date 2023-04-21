@@ -37,14 +37,12 @@ public class UsersController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> createUser(
             @Valid @RequestBody final CreateUsersView createUsersView) {
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping(value = "/{user_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateUserView> updateUser(final Integer userId,
             @Valid @RequestBody final UpdateUserView updateUserView) {
-
         return ResponseEntity.ok().build();
     }
 
