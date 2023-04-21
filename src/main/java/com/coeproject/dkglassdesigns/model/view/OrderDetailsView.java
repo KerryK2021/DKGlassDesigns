@@ -1,0 +1,27 @@
+package com.coeproject.dkglassdesigns.model.view;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class OrderDetailsView {
+
+    @JsonProperty("id")
+    private int id;
+
+    @JsonProperty("price")
+    private double price;
+
+    @JsonProperty("quantity")
+    private int quantity;
+
+    @JsonProperty("product_id")
+    private int product_id;
+
+    @JsonProperty("order_id")
+    private int order_id;
+}
