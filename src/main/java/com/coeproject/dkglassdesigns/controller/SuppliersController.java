@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.controller;
 
 import com.coeproject.dkglassdesigns.model.view.SuppliersView;
+import com.coeproject.dkglassdesigns.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @Slf4j
 public class SuppliersController {
+
+    private final SupplierRepository supplierRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuppliersView> getSuppliers() {

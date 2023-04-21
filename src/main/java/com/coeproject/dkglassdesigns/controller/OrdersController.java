@@ -3,6 +3,7 @@ package com.coeproject.dkglassdesigns.controller;
 import com.coeproject.dkglassdesigns.model.view.CreateOrdersView;
 import com.coeproject.dkglassdesigns.model.view.OrdersView;
 import com.coeproject.dkglassdesigns.model.view.UpdateOrderView;
+import com.coeproject.dkglassdesigns.repository.OrdersRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @Slf4j
 public class OrdersController {
+
+    private final OrdersRepository ordersRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrdersView> getOrders() {

@@ -2,6 +2,7 @@ package com.coeproject.dkglassdesigns.controller;
 
 import com.coeproject.dkglassdesigns.model.view.ProductsView;
 import com.coeproject.dkglassdesigns.model.view.UpdateProductView;
+import com.coeproject.dkglassdesigns.repository.ProductsRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @Slf4j
 public class ProductsController {
+
+    private final ProductsRepository productsRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductsView> getProducts() {

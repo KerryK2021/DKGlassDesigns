@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.controller;
 
 import com.coeproject.dkglassdesigns.model.view.CategoriesView;
+import com.coeproject.dkglassdesigns.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @Slf4j
 public class CategoriesController {
+
+    private final CategoryRepository categoriesRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoriesView> getCategories() {
