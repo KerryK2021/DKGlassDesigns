@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -35,7 +36,9 @@ public class ProductsController {
 
     @GetMapping(value = "/{product_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductsView> getProduct(final Integer productId) {
-        return ResponseEntity.ok(ProductsView.builder().build());
+        Optional<Products> productById = productsRepository.findById(productId);
+        ProductsView productsView = mapper.map(productById, ProductsView.class);
+        return ResponseEntity.ok(productsView);
     }
 
     @PutMapping(value = "/{product_id}", consumes = MediaType.APPLICATION_JSON_VALUE)

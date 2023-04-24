@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/system_users")
@@ -36,7 +37,9 @@ public class UsersController {
 
     @GetMapping(value = "/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsersView> getUser(final Integer userId) {
-        return ResponseEntity.ok(UsersView.builder().build());
+        Optional<User> userById = userRepository.findById(userId);
+        UsersView usersView = mapper.map(userById, UsersView.class);
+        return ResponseEntity.ok(usersView);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

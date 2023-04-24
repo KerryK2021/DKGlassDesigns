@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/supplier")
@@ -34,7 +35,8 @@ public class SuppliersController {
 
     @GetMapping(value = "/{supplier_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuppliersView> getSupplier(final Integer supplierId) {
-        return ResponseEntity.ok(SuppliersView.builder().build());
-    }
+        Optional<Supplier> supplierById = supplierRepository.findById(supplierId);
+        SuppliersView suppliersView = mapper.map(supplierById, SuppliersView.class);
+        return ResponseEntity.ok(suppliersView);    }
 
 }

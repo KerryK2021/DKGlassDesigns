@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/category")
@@ -34,7 +35,9 @@ public class CategoriesController {
 
     @GetMapping(value = "/{category_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoriesView> getCategory(final Integer categoryId) {
-        return ResponseEntity.ok(CategoriesView.builder().build());
+        Optional<Category> categoryById = categoriesRepository.findById(categoryId);
+        CategoriesView categoriesView = mapper.map(categoryById, CategoriesView.class);
+        return ResponseEntity.ok(categoriesView);
     }
 
 }

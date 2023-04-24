@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -36,7 +37,9 @@ public class OrdersController {
 
     @GetMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrdersView> getOrder(final Integer orderId) {
-        return ResponseEntity.ok(OrdersView.builder().build());
+        Optional<Order> ordersById = ordersRepository.findById(orderId);
+        OrdersView ordersView = mapper.map(ordersById, OrdersView.class);
+        return ResponseEntity.ok(ordersView);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
