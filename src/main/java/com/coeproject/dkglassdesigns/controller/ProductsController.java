@@ -1,5 +1,7 @@
 package com.coeproject.dkglassdesigns.controller;
 
+import com.coeproject.dkglassdesigns.entity.Products;
+import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.ProductsView;
 import com.coeproject.dkglassdesigns.model.view.UpdateProductView;
 import com.coeproject.dkglassdesigns.repository.ProductsRepository;
@@ -12,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -20,10 +24,13 @@ import org.springframework.web.bind.annotation.*;
 public class ProductsController {
 
     private final ProductsRepository productsRepository;
+    private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductsView> getProducts() {
-        return ResponseEntity.ok(ProductsView.builder().build());
+    public ResponseEntity<List<ProductsView>> getProducts() {
+        List<Products> productsList = (List<Products>) productsRepository.findAll();
+        List<ProductsView> productsViewList = mapper.map(productsList, ProductsView.class);
+        return ResponseEntity.ok(productsViewList);
     }
 
     @GetMapping(value = "/{product_id}", produces = MediaType.APPLICATION_JSON_VALUE)

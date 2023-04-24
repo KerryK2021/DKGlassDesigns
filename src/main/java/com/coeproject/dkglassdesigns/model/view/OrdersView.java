@@ -16,7 +16,7 @@ public class OrdersView {
     private int id;
 
     @JsonProperty("order_date")
-    private Date order_date;
+    private Date orderDate;
 
     @JsonProperty("status")
     private String status;
@@ -25,5 +25,5 @@ public class OrdersView {
     private String notes;
 
     @JsonProperty("customer_id")
-    private int customer_id;
+    private int customerId;
 }

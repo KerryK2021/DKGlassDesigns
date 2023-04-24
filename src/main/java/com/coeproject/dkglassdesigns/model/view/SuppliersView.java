@@ -14,7 +14,7 @@ public class SuppliersView {
     private int id;
 
     @JsonProperty("company_name")
-    private String company_name;
+    private String companyName;
 
     @JsonProperty("website")
     private String website;

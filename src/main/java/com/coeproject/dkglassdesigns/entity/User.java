@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user")
+@Table(name = "system_users")
 @AllArgsConstructor
 @Getter
 @Setter
 public class User {
 
     private int id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
     private String phone;
     private String address;
@@ -24,9 +24,9 @@ public class User {
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String phone, String address, String username, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public User(String firstName, String lastName, String email, String phone, String address, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.address = address;
@@ -45,18 +45,18 @@ public class User {
 
     @Column(name = "first_name", nullable = false)
     public String getFirstName() {
-        return firstname;
+        return firstName;
     }
-    public void setFirstName(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     @Column(name = "last_name", nullable = false)
     public String getLastName() {
-        return lastname;
+        return lastName;
     }
-    public void setLastName(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Column(name = "email", nullable = false)
@@ -101,6 +101,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phone=" + phone + ", address=" + address + ", username=" + username + ", password=" + password + "]";
+        return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", address=" + address + ", username=" + username + ", password=" + password + "]";
     }
 }

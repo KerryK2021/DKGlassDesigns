@@ -41,6 +41,6 @@ public class Admins {
 
     @Override
     public String toString() {
-        return "Admins [id=" + id + ", user_id=" + userId + "]";
+        return "Admins [id=" + id + ", userId=" + userId + "]";
     }
 }

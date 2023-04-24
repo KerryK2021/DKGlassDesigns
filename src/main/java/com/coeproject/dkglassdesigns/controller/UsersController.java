@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.controller;
 
 import com.coeproject.dkglassdesigns.entity.User;
+import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.CreateUsersView;
 import com.coeproject.dkglassdesigns.model.view.UpdateUserView;
 import com.coeproject.dkglassdesigns.model.view.UsersView;
@@ -14,19 +15,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/system_users")
 @RequiredArgsConstructor
 @Validated
 @Slf4j
 public class UsersController {
 
     private final UserRepository userRepository;
+    private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsersView> getUsers() {
-        Iterable<User> userList = userRepository.findAll();
-        return ResponseEntity.ok(UsersView.builder().build());
+    public ResponseEntity<List<UsersView>> getUsers() {
+        List<User> userList = (List<User>) userRepository.findAll();
+        List<UsersView> usersViewList = mapper.map(userList, UsersView.class);
+        return ResponseEntity.ok(usersViewList);
     }
 
     @GetMapping(value = "/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)

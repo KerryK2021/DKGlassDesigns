@@ -1,5 +1,7 @@
 package com.coeproject.dkglassdesigns.controller;
 
+import com.coeproject.dkglassdesigns.entity.Supplier;
+import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.SuppliersView;
 import com.coeproject.dkglassdesigns.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/supplier")
 @RequiredArgsConstructor
@@ -19,10 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class SuppliersController {
 
     private final SupplierRepository supplierRepository;
+    private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SuppliersView> getSuppliers() {
-        return ResponseEntity.ok(SuppliersView.builder().build());
+    public ResponseEntity<List<SuppliersView>> getSuppliers() {
+        List<Supplier> supplierList = (List<Supplier>) supplierRepository.findAll();
+        List<SuppliersView> suppliersViewList = mapper.map(supplierList, SuppliersView.class);
+        return ResponseEntity.ok(suppliersViewList);
     }
 
     @GetMapping(value = "/{supplier_id}", produces = MediaType.APPLICATION_JSON_VALUE)

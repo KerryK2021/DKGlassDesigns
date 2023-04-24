@@ -1,5 +1,7 @@
 package com.coeproject.dkglassdesigns.controller;
 
+import com.coeproject.dkglassdesigns.entity.Order;
+import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.CreateOrdersView;
 import com.coeproject.dkglassdesigns.model.view.OrdersView;
 import com.coeproject.dkglassdesigns.model.view.UpdateOrderView;
@@ -13,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -21,10 +25,13 @@ import org.springframework.web.bind.annotation.*;
 public class OrdersController {
 
     private final OrdersRepository ordersRepository;
+    private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrdersView> getOrders() {
-        return ResponseEntity.ok(OrdersView.builder().build());
+    public ResponseEntity<List<OrdersView>> getOrders() {
+        List<Order> ordersList = (List<Order>) ordersRepository.findAll();
+        List<OrdersView> ordersViewList = mapper.map(ordersList, OrdersView.class);
+        return ResponseEntity.ok(ordersViewList);
     }
 
     @GetMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)

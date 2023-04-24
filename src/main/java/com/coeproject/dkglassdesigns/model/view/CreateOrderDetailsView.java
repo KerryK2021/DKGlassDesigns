@@ -20,9 +20,9 @@ public class CreateOrderDetailsView {
     private int quantity;
 
     @JsonProperty("product_id")
-    private int product_id;
+    private int productId;
 
     @JsonProperty("order_id")
-    private int order_id;
+    private int orderId;
 }
 

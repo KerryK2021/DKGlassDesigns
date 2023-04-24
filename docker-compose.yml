@@ -7,14 +7,14 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: test
+      POSTGRES_DB: postgres
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     volumes:
       - db:/var/lib/postgresql/data
   flyway:
     image: flyway/flyway
-    command: -url=jdbc:postgresql://db/test -schemas=public -user=user
+    command: -url=jdbc:postgresql://db/postgres -schemas=public -user=user
       -password=password -connectRetries=5 migrate
     volumes:
       - ./database:/flyway/sql

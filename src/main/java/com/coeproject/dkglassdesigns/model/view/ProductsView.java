@@ -23,7 +23,7 @@ public class ProductsView {
     private double price;
 
     @JsonProperty("stock_count")
-    private int stock_count;
+    private int stockCount;
 
     @JsonProperty("status")
     private String status;
@@ -32,8 +32,8 @@ public class ProductsView {
     private String notes;
 
     @JsonProperty("supplier_id")
-    private int supplier_id;
+    private int supplierId;
 
     @JsonProperty("category_id")
-    private int category_id;
+    private int categoryId;
 }

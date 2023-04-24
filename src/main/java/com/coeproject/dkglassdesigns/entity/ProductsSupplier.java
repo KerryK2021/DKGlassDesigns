@@ -51,6 +51,6 @@ public class ProductsSupplier {
 
     @Override
     public String toString() {
-        return "ProductsSupplier [id=" + id + ", product_id=" + productId + ", supplier_id=" + supplierId + "]";
+        return "ProductsSupplier [id=" + id + ", productId=" + productId + ", supplierId=" + supplierId + "]";
     }
 }

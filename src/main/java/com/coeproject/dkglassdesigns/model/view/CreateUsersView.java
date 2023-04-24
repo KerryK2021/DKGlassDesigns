@@ -14,10 +14,10 @@ public class CreateUsersView {
     private int id;
 
     @JsonProperty("first_name")
-    private String first_name;
+    private String firstName;
 
     @JsonProperty("last_name")
-    private String last_name;
+    private String lastName;
 
     @JsonProperty("email")
     private String email;
