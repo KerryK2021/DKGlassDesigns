@@ -1,10 +1,10 @@
 package com.coeproject.dkglassdesigns.controller;
 
-import com.coeproject.dkglassdesigns.entity.Products;
+import com.coeproject.dkglassdesigns.dto.ProductsDto;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.ProductsView;
 import com.coeproject.dkglassdesigns.model.view.UpdateProductView;
-import com.coeproject.dkglassdesigns.repository.ProductsRepository;
+import com.coeproject.dkglassdesigns.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -24,21 +23,19 @@ import java.util.Optional;
 @Slf4j
 public class ProductsController {
 
-    private final ProductsRepository productsRepository;
+    private final ProductService productService;
     private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ProductsView>> getProducts() {
-        List<Products> productsList = (List<Products>) productsRepository.findAll();
-        List<ProductsView> productsViewList = mapper.map(productsList, ProductsView.class);
-        return ResponseEntity.ok(productsViewList);
+        List<ProductsDto> productsList = productService.findAll();
+        return ResponseEntity.ok(mapper.map(productsList, ProductsView.class));
     }
 
     @GetMapping(value = "/{product_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductsView> getProduct(final Integer productId) {
-        Optional<Products> productById = productsRepository.findById(productId);
-        ProductsView productsView = mapper.map(productById, ProductsView.class);
-        return ResponseEntity.ok(productsView);
+        ProductsDto productById = productService.findById(productId);
+        return ResponseEntity.ok(mapper.map(productById, ProductsView.class));
     }
 
     @PutMapping(value = "/{product_id}", consumes = MediaType.APPLICATION_JSON_VALUE)

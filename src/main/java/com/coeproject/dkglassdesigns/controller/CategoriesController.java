@@ -1,9 +1,9 @@
 package com.coeproject.dkglassdesigns.controller;
 
-import com.coeproject.dkglassdesigns.entity.Category;
+import com.coeproject.dkglassdesigns.dto.CategoryDto;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.CategoriesView;
-import com.coeproject.dkglassdesigns.repository.CategoryRepository;
+import com.coeproject.dkglassdesigns.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/category")
@@ -23,21 +22,19 @@ import java.util.Optional;
 @Slf4j
 public class CategoriesController {
 
-    private final CategoryRepository categoriesRepository;
+    private final CategoryService categoryService;
     private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CategoriesView>> getCategories() {
-        List<Category> categoriesList = (List<Category>) categoriesRepository.findAll();
-        List<CategoriesView> categoriesViewList = mapper.map(categoriesList, CategoriesView.class);
-        return ResponseEntity.ok(categoriesViewList);
+        List<CategoryDto> categoriesList = categoryService.findAll();
+        return ResponseEntity.ok(mapper.map(categoriesList, CategoriesView.class));
     }
 
     @GetMapping(value = "/{category_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoriesView> getCategory(final Integer categoryId) {
-        Optional<Category> categoryById = categoriesRepository.findById(categoryId);
-        CategoriesView categoriesView = mapper.map(categoryById, CategoriesView.class);
-        return ResponseEntity.ok(categoriesView);
+        CategoryDto categoryById = categoryService.findById(categoryId);
+        return ResponseEntity.ok(mapper.map(categoryById, CategoriesView.class));
     }
 
 }

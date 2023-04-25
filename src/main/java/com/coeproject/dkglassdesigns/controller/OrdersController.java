@@ -1,11 +1,11 @@
 package com.coeproject.dkglassdesigns.controller;
 
-import com.coeproject.dkglassdesigns.entity.Order;
+import com.coeproject.dkglassdesigns.dto.OrdersDto;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.CreateOrdersView;
 import com.coeproject.dkglassdesigns.model.view.OrdersView;
 import com.coeproject.dkglassdesigns.model.view.UpdateOrderView;
-import com.coeproject.dkglassdesigns.repository.OrdersRepository;
+import com.coeproject.dkglassdesigns.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -25,21 +24,19 @@ import java.util.Optional;
 @Slf4j
 public class OrdersController {
 
-    private final OrdersRepository ordersRepository;
+    private final OrderService orderService;
     private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OrdersView>> getOrders() {
-        List<Order> ordersList = (List<Order>) ordersRepository.findAll();
-        List<OrdersView> ordersViewList = mapper.map(ordersList, OrdersView.class);
-        return ResponseEntity.ok(ordersViewList);
+        List<OrdersDto> ordersList = orderService.findAll();
+        return ResponseEntity.ok(mapper.map(ordersList, OrdersView.class));
     }
 
     @GetMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrdersView> getOrder(final Integer orderId) {
-        Optional<Order> ordersById = ordersRepository.findById(orderId);
-        OrdersView ordersView = mapper.map(ordersById, OrdersView.class);
-        return ResponseEntity.ok(ordersView);
+        OrdersDto orderById = orderService.findById(orderId);
+        return ResponseEntity.ok(mapper.map(orderById, OrdersView.class));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

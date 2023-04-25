@@ -1,9 +1,9 @@
 package com.coeproject.dkglassdesigns.controller;
 
-import com.coeproject.dkglassdesigns.entity.Supplier;
+import com.coeproject.dkglassdesigns.dto.SupplierDto;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.SuppliersView;
-import com.coeproject.dkglassdesigns.repository.SupplierRepository;
+import com.coeproject.dkglassdesigns.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/supplier")
@@ -23,20 +22,19 @@ import java.util.Optional;
 @Slf4j
 public class SuppliersController {
 
-    private final SupplierRepository supplierRepository;
+    private final SupplierService supplierService;
     private final Mapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<SuppliersView>> getSuppliers() {
-        List<Supplier> supplierList = (List<Supplier>) supplierRepository.findAll();
-        List<SuppliersView> suppliersViewList = mapper.map(supplierList, SuppliersView.class);
-        return ResponseEntity.ok(suppliersViewList);
+        List<SupplierDto> supplierList = supplierService.findAll();
+        return ResponseEntity.ok(mapper.map(supplierList, SuppliersView.class));
     }
 
     @GetMapping(value = "/{supplier_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuppliersView> getSupplier(final Integer supplierId) {
-        Optional<Supplier> supplierById = supplierRepository.findById(supplierId);
-        SuppliersView suppliersView = mapper.map(supplierById, SuppliersView.class);
-        return ResponseEntity.ok(suppliersView);    }
+        SupplierDto supplierById = supplierService.findById(supplierId);
+        return ResponseEntity.ok(mapper.map(supplierById, SuppliersView.class));
+    }
 
 }
