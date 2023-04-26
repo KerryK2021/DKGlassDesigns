@@ -52,6 +52,7 @@ public class OrdersController {
 
     @DeleteMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> deleteOrder(final Integer orderId) {
-        return ResponseEntity.noContent().build();
+        orderService.deleteOrderById(orderId);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.service;
 
 import com.coeproject.dkglassdesigns.dto.ProductsDto;
+import com.coeproject.dkglassdesigns.exception.custom.ResourceNotFoundException;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,12 @@ public class ProductService {
 
     public ProductsDto findById(final int productId) {
         return mapper.map(productsRepository.findById(productId), ProductsDto.class);
+    }
+
+    public void deleteProductById(Integer productId) {
+        if(!productsRepository.existsById(productId)){
+            throw new ResourceNotFoundException("Unable to find productId");
+        }
+        productsRepository.deleteById(productId);
     }
 }

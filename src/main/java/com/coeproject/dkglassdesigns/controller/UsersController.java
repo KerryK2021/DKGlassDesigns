@@ -44,7 +44,7 @@ public class UsersController {
             @Valid @RequestBody final CreateUsersView createUsersView) {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
+    
     @PutMapping(value = "/{user_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UpdateUserView> updateUser(final Integer userId,
             @Valid @RequestBody final UpdateUserView updateUserView) {
@@ -53,6 +53,7 @@ public class UsersController {
 
     @DeleteMapping(value = "/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> deleteUser(final Integer userId) {
-        return ResponseEntity.noContent().build();
+        userService.deleteUserById(userId);
+        return ResponseEntity.ok().build();
     }
 }
