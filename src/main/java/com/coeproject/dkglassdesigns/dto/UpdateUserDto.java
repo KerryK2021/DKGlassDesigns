@@ -9,14 +9,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDto {
+public class UpdateUserDto {
 
-    private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String address;
     private String username;
+    private String password;
     private int roleId;
 }

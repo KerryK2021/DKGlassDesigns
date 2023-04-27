@@ -33,4 +33,7 @@ public class CreateUsersView {
 
     @JsonProperty("password")
     private String password;
+
+    @JsonProperty("role_id")
+    private int roleId;
 }

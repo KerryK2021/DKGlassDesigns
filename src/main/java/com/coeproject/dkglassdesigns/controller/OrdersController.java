@@ -1,10 +1,9 @@
 package com.coeproject.dkglassdesigns.controller;
 
-import com.coeproject.dkglassdesigns.dto.OrdersDto;
+import com.coeproject.dkglassdesigns.dto.*;
+import com.coeproject.dkglassdesigns.entity.Order;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
-import com.coeproject.dkglassdesigns.model.view.CreateOrdersView;
-import com.coeproject.dkglassdesigns.model.view.OrdersView;
-import com.coeproject.dkglassdesigns.model.view.UpdateOrderView;
+import com.coeproject.dkglassdesigns.model.view.*;
 import com.coeproject.dkglassdesigns.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -42,12 +42,19 @@ public class OrdersController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> createOrder(
             @Valid @RequestBody final CreateOrdersView createOrdersView) {
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        final CreateOrderDto createOrderDto = mapper.map(createOrdersView, CreateOrderDto.class);
+        final OrdersDto ordersDto = orderService.createOrder(createOrderDto);
+        final OrdersView ordersView = mapper.map(ordersDto, OrdersView.class);
+        return new ResponseEntity(ordersView, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{order_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateOrderView> updateUser(final Integer orderId, @Valid @RequestBody final UpdateOrderView updateOrderView) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UpdateOrderView> updateOrder(final int orderId,
+                                                     @Valid @RequestBody final UpdateOrderView updateOrderView) {
+        final UpdateOrderDto updateOrderDto = mapper.map(updateOrderView, UpdateOrderDto.class);
+        final Optional<OrdersDto> ordersDto = orderService.updateOrder(orderId, updateOrderDto);
+        final OrdersView ordersView = mapper.map(ordersDto, OrdersView.class);
+        return new ResponseEntity(ordersView, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)

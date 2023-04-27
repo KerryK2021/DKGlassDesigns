@@ -1,5 +1,7 @@
 package com.coeproject.dkglassdesigns.controller;
 
+import com.coeproject.dkglassdesigns.dto.CreateUserDto;
+import com.coeproject.dkglassdesigns.dto.UpdateUserDto;
 import com.coeproject.dkglassdesigns.dto.UserDto;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.CreateUsersView;
@@ -16,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/system_users")
@@ -42,13 +45,19 @@ public class UsersController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> createUser(
             @Valid @RequestBody final CreateUsersView createUsersView) {
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        final CreateUserDto createUserDto = mapper.map(createUsersView, CreateUserDto.class);
+        final UserDto userDto = userService.createUser(createUserDto);
+        final UsersView usersView = mapper.map(userDto, UsersView.class);
+        return new ResponseEntity(usersView, HttpStatus.CREATED);
     }
-    
+
     @PutMapping(value = "/{user_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateUserView> updateUser(final Integer userId,
+    public ResponseEntity<UpdateUserView> updateUser(final int userId,
             @Valid @RequestBody final UpdateUserView updateUserView) {
-        return ResponseEntity.ok().build();
+        final UpdateUserDto updateUserDto = mapper.map(updateUserView, UpdateUserDto.class);
+        final Optional<UserDto> userDto = userService.updateUser(userId, updateUserDto);
+        final UsersView usersView = mapper.map(userDto, UsersView.class);
+        return new ResponseEntity(usersView, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)

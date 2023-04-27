@@ -1,5 +1,6 @@
 package com.coeproject.dkglassdesigns.controller;
 
+import com.coeproject.dkglassdesigns.dto.CreateOrderDetailsDto;
 import com.coeproject.dkglassdesigns.dto.OrderDetailsDto;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.CreateOrderDetailsView;
@@ -32,9 +33,11 @@ public class OrderDetailsController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> createOrderDetails(
-            @Valid @RequestBody final CreateOrderDetailsView createOrderDetailsView) {
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            @Valid @RequestBody final CreateOrderDetailsView createOrdersDetailsView) {
+        final CreateOrderDetailsDto createOrderDetailsDto = mapper.map(createOrdersDetailsView, CreateOrderDetailsDto.class);
+        final OrderDetailsDto orderDetailsDto = orderDetailsService.createOrderDetails(createOrderDetailsDto);
+        final OrderDetailsView orderDetailsView = mapper.map(orderDetailsDto, OrderDetailsView.class);
+        return new ResponseEntity(orderDetailsView, HttpStatus.CREATED);
     }
 
 }

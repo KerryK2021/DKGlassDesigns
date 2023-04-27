@@ -30,4 +30,7 @@ public class UpdateUserView {
 
     @JsonProperty("password")
     private String password;
+
+    @JsonProperty("role_id")
+    private int roleId;
 }
