@@ -26,36 +26,28 @@ public class UserService {
     }
 
     public UserDto findById(final int userId) {
-        return mapper.map(userRepository.findById(userId), UserDto.class);
+        return mapper.map(userRepository.findById(userId).get(), UserDto.class);
     }
 
     public UserDto createUser(final CreateUserDto createUserDto) {
         final User user = mapper.map(createUserDto, User.class);
-        final User newUser;
-        newUser = userRepository.save(user);
+        final User newUser = userRepository.save(user);
         return mapper.map(newUser, UserDto.class);
     }
 
-    public Optional<UserDto>updateUser(final int userId, final UpdateUserDto updateUserDto) {
+    public Optional<UserDto> updateUser(final int userId, final UpdateUserDto updateUserDto) {
         final Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) return Optional.empty();
-        updateUserEntity(updateUserDto, user.get());
+        updateUserEntity(updateUserDto);
         return Optional.of(mapper.map(user.get(), UserDto.class));
     }
 
-    private void updateUserEntity(final UpdateUserDto updateUserDto, final User user) {
-        user.setFirstName(updateUserDto.getFirstName());
-        user.setLastName(updateUserDto.getLastName());
-        user.setEmail(updateUserDto.getEmail());
-        user.setPhone(updateUserDto.getPhone());
-        user.setAddress(updateUserDto.getAddress());
-        user.setUsername(updateUserDto.getUsername());
-        user.setPassword(updateUserDto.getPassword());
-        user.setRoleId(updateUserDto.getRoleId());
-        userRepository.save(user);
+    private void updateUserEntity(final UpdateUserDto updateUserDto) {
+        User updateUser = mapper.map(updateUserDto, User.class);
+        userRepository.save(updateUser);
     }
 
-    public void deleteUserById(Integer userId) {
+    public void deleteUserById(final Integer userId) {
         if(!userRepository.existsById(userId)){
             throw new ResourceNotFoundException("Unable to find userId");
         }

@@ -21,6 +21,6 @@ public class SupplierService {
     }
 
     public SupplierDto findById(final int supplierId) {
-        return mapper.map(supplierRepository.findById(supplierId), SupplierDto.class);
+        return mapper.map(supplierRepository.findById(supplierId).get(), SupplierDto.class);
     }
 }

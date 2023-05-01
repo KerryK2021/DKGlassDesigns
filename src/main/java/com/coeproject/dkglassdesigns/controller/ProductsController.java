@@ -32,9 +32,9 @@ public class ProductsController {
         return ResponseEntity.ok(mapper.map(productsList, ProductsView.class));
     }
 
-    @GetMapping(value = "/{product_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductsView> getProduct(final Integer productId) {
-        ProductsDto productById = productService.findById(productId);
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductsView> getProduct(@PathVariable final Integer id) {
+        ProductsDto productById = productService.findById(id);
         return ResponseEntity.ok(mapper.map(productById, ProductsView.class));
     }
 
@@ -47,8 +47,8 @@ public class ProductsController {
         return new ResponseEntity(productsView, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{product_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateProductView> updateProduct(final int productId,
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UpdateProductView> updateProduct(@PathVariable final int productId,
                                                      @Valid @RequestBody final UpdateProductView updateProductView) {
         final UpdateProductDto updateProductDto = mapper.map(updateProductView, UpdateProductDto.class);
         final Optional<ProductsDto> productsDto = productService.updateProduct(productId, updateProductDto);
@@ -56,8 +56,8 @@ public class ProductsController {
         return new ResponseEntity(productsView, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{product_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> deleteProduct(final Integer productId) {
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable final Integer productId) {
         productService.deleteProductById(productId);
         return ResponseEntity.ok().build();
     }

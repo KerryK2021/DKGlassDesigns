@@ -20,6 +20,6 @@ public class CategoryService {
     }
 
     public CategoryDto findById(final int categoryId) {
-        return mapper.map(categoryRepository.findById(categoryId), CategoryDto.class);
+        return mapper.map(categoryRepository.findById(categoryId).get(), CategoryDto.class);
     }
 }

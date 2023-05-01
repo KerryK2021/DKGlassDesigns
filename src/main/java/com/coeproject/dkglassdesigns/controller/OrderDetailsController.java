@@ -25,9 +25,9 @@ public class OrderDetailsController {
     private final OrderDetailsService orderDetailsService;
     private final Mapper mapper;
 
-    @GetMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrderDetailsView> getOrderDetails(final Integer orderId) {
-        OrderDetailsDto orderDetailsById = orderDetailsService.findById(orderId);
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OrderDetailsView> getOrderDetails(@PathVariable final Integer id) {
+        OrderDetailsDto orderDetailsById = orderDetailsService.findById(id);
         return ResponseEntity.ok(mapper.map(orderDetailsById, OrderDetailsView.class));
     }
 

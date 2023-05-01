@@ -1,7 +1,6 @@
 package com.coeproject.dkglassdesigns.controller;
 
 import com.coeproject.dkglassdesigns.dto.*;
-import com.coeproject.dkglassdesigns.entity.Order;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.model.view.*;
 import com.coeproject.dkglassdesigns.service.OrderService;
@@ -33,9 +32,9 @@ public class OrdersController {
         return ResponseEntity.ok(mapper.map(ordersList, OrdersView.class));
     }
 
-    @GetMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrdersView> getOrder(final Integer orderId) {
-        OrdersDto orderById = orderService.findById(orderId);
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OrdersView> getOrder(@PathVariable final Integer id) {
+        OrdersDto orderById = orderService.findById(id);
         return ResponseEntity.ok(mapper.map(orderById, OrdersView.class));
     }
 
@@ -48,8 +47,8 @@ public class OrdersController {
         return new ResponseEntity(ordersView, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{order_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateOrderView> updateOrder(final int orderId,
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UpdateOrderView> updateOrder(@PathVariable final int orderId,
                                                      @Valid @RequestBody final UpdateOrderView updateOrderView) {
         final UpdateOrderDto updateOrderDto = mapper.map(updateOrderView, UpdateOrderDto.class);
         final Optional<OrdersDto> ordersDto = orderService.updateOrder(orderId, updateOrderDto);
@@ -57,8 +56,8 @@ public class OrdersController {
         return new ResponseEntity(ordersView, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> deleteOrder(final Integer orderId) {
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable final Integer orderId) {
         orderService.deleteOrderById(orderId);
         return ResponseEntity.ok().build();
     }

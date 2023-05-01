@@ -36,9 +36,9 @@ public class UsersController {
         return ResponseEntity.ok(mapper.map(userList, UsersView.class));
     }
 
-    @GetMapping(value = "/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsersView> getUser(final Integer userId) {
-        UserDto userById = userService.findById(userId);
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UsersView> getUser(@PathVariable final Integer id) {
+        UserDto userById = userService.findById(id);
         return ResponseEntity.ok(mapper.map(userById, UsersView.class));
     }
 
@@ -51,8 +51,8 @@ public class UsersController {
         return new ResponseEntity(usersView, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{user_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateUserView> updateUser(final int userId,
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UpdateUserView> updateUser(@PathVariable final int userId,
             @Valid @RequestBody final UpdateUserView updateUserView) {
         final UpdateUserDto updateUserDto = mapper.map(updateUserView, UpdateUserDto.class);
         final Optional<UserDto> userDto = userService.updateUser(userId, updateUserDto);
@@ -60,8 +60,8 @@ public class UsersController {
         return new ResponseEntity(usersView, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> deleteUser(final Integer userId) {
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable final Integer userId) {
         userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
     }

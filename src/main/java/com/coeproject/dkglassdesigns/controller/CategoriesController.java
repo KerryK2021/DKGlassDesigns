@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,9 +32,9 @@ public class CategoriesController {
         return ResponseEntity.ok(mapper.map(categoriesList, CategoriesView.class));
     }
 
-    @GetMapping(value = "/{category_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoriesView> getCategory(final Integer categoryId) {
-        CategoryDto categoryById = categoryService.findById(categoryId);
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CategoriesView> getCategory(@PathVariable final Integer id) {
+        CategoryDto categoryById = categoryService.findById(id);
         return ResponseEntity.ok(mapper.map(categoryById, CategoriesView.class));
     }
 

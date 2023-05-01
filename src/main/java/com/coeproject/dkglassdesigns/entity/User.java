@@ -3,11 +3,13 @@ package com.coeproject.dkglassdesigns.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "system_users")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class User {
@@ -21,20 +23,6 @@ public class User {
     private String username;
     private String password;
     private int roleId;
-
-    public User() {
-    }
-
-    public User(String firstName, String lastName, String email, String phone, String address, String username, String password, Integer roleId) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.username = username;
-        this.password = password;
-        this.roleId = roleId;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

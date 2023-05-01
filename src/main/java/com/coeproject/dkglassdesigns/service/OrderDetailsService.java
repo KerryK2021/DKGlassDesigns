@@ -17,13 +17,12 @@ public class OrderDetailsService {
     private final Mapper mapper;
 
     public OrderDetailsDto findById(final int orderId) {
-        return mapper.map(orderDetailsRepository.findById(orderId), OrderDetailsDto.class);
+        return mapper.map(orderDetailsRepository.findById(orderId).get(), OrderDetailsDto.class);
     }
 
     public OrderDetailsDto createOrderDetails(final CreateOrderDetailsDto createOrderDetailsDto) {
         final OrderDetails orderDetails = mapper.map(createOrderDetailsDto, OrderDetails.class);
-        final OrderDetails newOrderDetails;
-        newOrderDetails = orderDetailsRepository.save(orderDetails);
+        final OrderDetails newOrderDetails = orderDetailsRepository.save(orderDetails);
         return mapper.map(newOrderDetails, OrderDetailsDto.class);
     }
 }

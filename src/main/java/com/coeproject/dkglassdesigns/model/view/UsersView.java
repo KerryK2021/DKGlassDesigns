@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.model.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Builder
@@ -29,8 +30,10 @@ public class UsersView {
     private String address;
 
     @JsonProperty("username")
+    @Size(min=8)
     private String username;
 
     @JsonProperty("role_id")
+    @Size(min=8)
     private int roleId;
 }
