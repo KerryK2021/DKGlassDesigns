@@ -57,8 +57,8 @@ public class ProductsController {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable final Integer productId) {
+    public ResponseEntity<HttpStatus> deleteProduct(final Integer productId) {
         productService.deleteProductById(productId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

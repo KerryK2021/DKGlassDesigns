@@ -6,6 +6,7 @@ import com.coeproject.dkglassdesigns.exception.custom.ResourceNotFoundException;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,9 +47,10 @@ public class ProductService {
     }
 
     public void deleteProductById(Integer productId) {
-        if(!productsRepository.existsById(productId)){
-            throw new ResourceNotFoundException("Unable to find productId");
+        try {
+            productsRepository.deleteById(productId);
+        } catch (final EmptyResultDataAccessException ex) {
+            throw new ResourceNotFoundException("Unable to find product");
         }
-        productsRepository.deleteById(productId);
     }
 }

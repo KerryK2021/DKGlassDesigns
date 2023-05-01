@@ -8,6 +8,7 @@ import com.coeproject.dkglassdesigns.exception.custom.ResourceNotFoundException;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,9 +49,10 @@ public class UserService {
     }
 
     public void deleteUserById(final Integer userId) {
-        if(!userRepository.existsById(userId)){
-            throw new ResourceNotFoundException("Unable to find userId");
+        try {
+            userRepository.deleteById(userId);
+        } catch (final EmptyResultDataAccessException ex) {
+            throw new ResourceNotFoundException("Unable to find user");
         }
-        userRepository.deleteById(userId);
     }
 }

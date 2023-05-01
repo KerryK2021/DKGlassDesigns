@@ -3,6 +3,7 @@ package com.coeproject.dkglassdesigns.services;
 import com.coeproject.dkglassdesigns.dto.CreateProductDto;
 import com.coeproject.dkglassdesigns.dto.ProductsDto;
 import com.coeproject.dkglassdesigns.entity.Products;
+import com.coeproject.dkglassdesigns.exception.custom.ResourceNotFoundException;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.repository.ProductsRepository;
 import com.coeproject.dkglassdesigns.service.ProductService;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -87,5 +89,14 @@ public class ProductsServiceTests {
 
         verify(productsRepositoryMock).save(productsFixture);
         assertThat(productsDto).usingRecursiveComparison().isEqualTo(productsDtoFixture);
+    }
+
+    @Test
+    public void delete_Product_Returns_ResourceNotFoundException() {
+        doThrow(ResourceNotFoundException.class).when(productsRepositoryMock).deleteById(anyInt());
+        assertThrows(ResourceNotFoundException.class,
+                () -> classUnderTest.deleteProductById(anyInt()),
+                "ResourceNotFoundException is expected");
+        verify(productsRepositoryMock).deleteById(anyInt());
     }
 }

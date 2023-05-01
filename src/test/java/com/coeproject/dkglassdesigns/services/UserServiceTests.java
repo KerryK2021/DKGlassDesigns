@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -93,5 +94,14 @@ public class UserServiceTests {
 
         verify(userRepositoryMock).save(userFixture);
         assertThat(userDto).usingRecursiveComparison().isEqualTo(userDtoFixture);
+    }
+
+    @Test
+    public void delete_User_Returns_ResourceNotFoundException() {
+        doThrow(ResourceNotFoundException.class).when(userRepositoryMock).deleteById(anyInt());
+        assertThrows(ResourceNotFoundException.class,
+                () -> classUnderTest.deleteUserById(anyInt()),
+                "ResourceNotFoundException is expected");
+        verify(userRepositoryMock).deleteById(anyInt());
     }
 }

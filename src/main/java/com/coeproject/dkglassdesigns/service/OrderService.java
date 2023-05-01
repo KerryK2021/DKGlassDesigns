@@ -6,6 +6,7 @@ import com.coeproject.dkglassdesigns.exception.custom.ResourceNotFoundException;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,9 +47,10 @@ public class OrderService {
     }
 
     public void deleteOrderById(Integer orderId) {
-        if(!ordersRepository.existsById(orderId)){
-            throw new ResourceNotFoundException("Unable to find orderId");
+        try {
+            ordersRepository.deleteById(orderId);
+        } catch (final EmptyResultDataAccessException ex) {
+            throw new ResourceNotFoundException("Unable to find order");
         }
-        ordersRepository.deleteById(orderId);
     }
 }

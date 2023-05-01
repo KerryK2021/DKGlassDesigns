@@ -3,6 +3,7 @@ package com.coeproject.dkglassdesigns.services;
 import com.coeproject.dkglassdesigns.dto.CreateOrderDto;
 import com.coeproject.dkglassdesigns.dto.OrdersDto;
 import com.coeproject.dkglassdesigns.entity.Order;
+import com.coeproject.dkglassdesigns.exception.custom.ResourceNotFoundException;
 import com.coeproject.dkglassdesigns.mapper.Mapper;
 import com.coeproject.dkglassdesigns.repository.OrdersRepository;
 import com.coeproject.dkglassdesigns.service.OrderService;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -94,5 +96,14 @@ public class OrderServiceTests {
 
         verify(ordersRepositoryMock).save(orderFixture);
         assertThat(ordersDto).usingRecursiveComparison().isEqualTo(orderDtoFixture);
+    }
+
+    @Test
+    public void delete_Order_Returns_ResourceNotFoundException() {
+        doThrow(ResourceNotFoundException.class).when(ordersRepositoryMock).deleteById(anyInt());
+        assertThrows(ResourceNotFoundException.class,
+                () -> classUnderTest.deleteOrderById(anyInt()),
+                "ResourceNotFoundException is expected");
+        verify(ordersRepositoryMock).deleteById(anyInt());
     }
 }
