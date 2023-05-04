@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.services;
 
 import com.coeproject.dkglassdesigns.dto.CreateUserDto;
+import com.coeproject.dkglassdesigns.dto.UpdateUserDto;
 import com.coeproject.dkglassdesigns.dto.UserDto;
 import com.coeproject.dkglassdesigns.entity.User;
 import com.coeproject.dkglassdesigns.exception.custom.ResourceNotFoundException;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -50,6 +50,9 @@ public class UserServiceTests {
 
     @Fixture
     private CreateUserDto createUserDtoFixture;
+
+    @Fixture
+    private UpdateUserDto updateUserDtoFixture;
 
     @InjectMocks
     private UserService classUnderTest;
@@ -94,6 +97,19 @@ public class UserServiceTests {
 
         verify(userRepositoryMock).save(userFixture);
         assertThat(userDto).usingRecursiveComparison().isEqualTo(userDtoFixture);
+    }
+
+    @Test
+    public void update_User_Returns_UserDto() {
+        when(mapperMock.map(userFixture, UserDto.class)).thenReturn(userDtoFixture);
+        when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.of(userFixture));
+        when(mapperMock.map(updateUserDtoFixture, User.class)).thenReturn(userFixture);
+        when(userRepositoryMock.save(userFixture)).thenReturn(userFixture);
+
+        Optional<UserDto> userDto = classUnderTest.updateUser(anyInt(), updateUserDtoFixture);
+
+        verify(userRepositoryMock).save(userFixture);
+        assertThat(userDto.get()).usingRecursiveComparison().isEqualTo(userDtoFixture);
     }
 
     @Test

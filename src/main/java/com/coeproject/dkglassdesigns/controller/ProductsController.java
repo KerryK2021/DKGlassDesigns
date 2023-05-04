@@ -48,17 +48,17 @@ public class ProductsController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateProductView> updateProduct(@PathVariable final int productId,
+    public ResponseEntity<UpdateProductView> updateProduct(@PathVariable final int id,
                                                      @Valid @RequestBody final UpdateProductView updateProductView) {
         final UpdateProductDto updateProductDto = mapper.map(updateProductView, UpdateProductDto.class);
-        final Optional<ProductsDto> productsDto = productService.updateProduct(productId, updateProductDto);
-        final ProductsView productsView = mapper.map(productsDto, ProductsView.class);
+        final Optional<ProductsDto> productsDto = productService.updateProduct(id, updateProductDto);
+        final ProductsView productsView = mapper.map(productsDto.get(), ProductsView.class);
         return new ResponseEntity(productsView, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> deleteProduct(final Integer productId) {
-        productService.deleteProductById(productId);
+    public ResponseEntity<HttpStatus> deleteProduct(final Integer id) {
+        productService.deleteProductById(id);
         return ResponseEntity.noContent().build();
     }
 }

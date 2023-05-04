@@ -48,17 +48,17 @@ public class OrdersController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateOrderView> updateOrder(@PathVariable final int orderId,
+    public ResponseEntity<UpdateOrderView> updateOrder(@PathVariable final int id,
                                                      @Valid @RequestBody final UpdateOrderView updateOrderView) {
         final UpdateOrderDto updateOrderDto = mapper.map(updateOrderView, UpdateOrderDto.class);
-        final Optional<OrdersDto> ordersDto = orderService.updateOrder(orderId, updateOrderDto);
-        final OrdersView ordersView = mapper.map(ordersDto, OrdersView.class);
+        final Optional<OrdersDto> ordersDto = orderService.updateOrder(id, updateOrderDto);
+        final OrdersView ordersView = mapper.map(ordersDto.get(), OrdersView.class);
         return new ResponseEntity(ordersView, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> deleteOrder(final Integer orderId) {
-        orderService.deleteOrderById(orderId);
+    public ResponseEntity<HttpStatus> deleteOrder(final Integer id) {
+        orderService.deleteOrderById(id);
         return ResponseEntity.ok().build();
     }
 }

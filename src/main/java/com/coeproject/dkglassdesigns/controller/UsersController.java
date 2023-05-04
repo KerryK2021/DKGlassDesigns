@@ -32,14 +32,14 @@ public class UsersController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UsersView>> getUsers() {
-        List<UserDto> userList = userService.findAll();
-        return ResponseEntity.ok(mapper.map(userList, UsersView.class));
+        List<UserDto> userDtoList = userService.findAll();
+        return ResponseEntity.ok(mapper.map(userDtoList, UsersView.class));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsersView> getUser(@PathVariable final Integer id) {
-        UserDto userById = userService.findById(id);
-        return ResponseEntity.ok(mapper.map(userById, UsersView.class));
+        UserDto userDto = userService.findById(id);
+        return ResponseEntity.ok(mapper.map(userDto, UsersView.class));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,11 +52,11 @@ public class UsersController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UpdateUserView> updateUser(@PathVariable final int userId,
+    public ResponseEntity<UpdateUserView> updateUser(@PathVariable final int id,
             @Valid @RequestBody final UpdateUserView updateUserView) {
         final UpdateUserDto updateUserDto = mapper.map(updateUserView, UpdateUserDto.class);
-        final Optional<UserDto> userDto = userService.updateUser(userId, updateUserDto);
-        final UsersView usersView = mapper.map(userDto, UsersView.class);
+        final Optional<UserDto> userDto = userService.updateUser(id, updateUserDto);
+        final UsersView usersView = mapper.map(userDto.get(), UsersView.class);
         return new ResponseEntity(usersView, HttpStatus.OK);
     }
 
