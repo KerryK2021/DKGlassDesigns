@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.controllers;
 
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -119,5 +120,11 @@ public class UserControllerTests {
         when(mapperMock.map(userDtoFixture, UsersView.class)).thenReturn(usersViewFixture);
         mockMvc.perform(put("/system_users/1").contentType(MediaType.APPLICATION_JSON)
                 .content(UPDATE_USER_VALID_JSON)).andExpect(status().isOk());
+    }
+
+    @Test
+    public void delete_user_returns_no_content() throws Exception {
+        doNothing().when(userServiceMock).deleteUserById(anyInt());
+        mockMvc.perform(delete("/system_users/1")).andExpect(status().isNoContent());
     }
 }

@@ -1,6 +1,7 @@
 package com.coeproject.dkglassdesigns.controllers;
 
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -115,5 +116,10 @@ public class OrderControllerTests {
         when(mapperMock.map(ordersDtoFixture, OrdersView.class)).thenReturn(ordersViewFixture);
         mockMvc.perform(put("/orders/1").contentType(MediaType.APPLICATION_JSON)
                 .content(UPDATE_ORDER_VALID_JSON)).andExpect(status().isOk());
+    }
+    @Test
+    public void delete_order_returns_no_content() throws Exception {
+        doNothing().when(orderServiceMock).deleteOrderById(anyInt());
+        mockMvc.perform(delete("/orders/1")).andExpect(status().isNoContent());
     }
 }
